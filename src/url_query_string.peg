@@ -1,0 +1,28 @@
+query_string <- first_param second_param*
+`
+[H, T] = Node,
+[H | T]
+`;
+
+first_param <- '?' param
+`
+[_, Param] = Node,
+Param
+`;
+
+second_param <- '&' param
+`
+[_, Param] = Node,
+Param
+`;
+
+param <- name:word '=' value:word
+`
+[{name, Name}, _, {value, Value}] = Node,
+{param, Name, Value}
+`;
+
+word <- char*
+`iolist_to_binary(Node)`;
+
+char <- [^?&#=];
