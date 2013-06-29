@@ -1,11 +1,14 @@
+%% -*- erlang -*-
+
 {application, skydrive,
  [
   {description, ""},
-  {vsn, "1"},
+  {vsn, git},
   {registered, []},
   {applications, [
                   kernel,
-                  stdlib
+                  stdlib,
+		  inets
                  ]},
   {mod, { skydrive_app, []}},
   {env, []}
