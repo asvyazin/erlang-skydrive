@@ -38,7 +38,7 @@ Param
 'param'(Input, Index) ->
   p(Input, Index, 'param', fun(I,D) -> (p_seq([p_label('name', fun 'word'/2), p_string(<<"=">>), p_label('value', fun 'word'/2)]))(I,D) end, fun(Node, _Idx) -> 
 [{name, Name}, _, {value, Value}] = Node,
-{Name, Value}
+{binary_to_atom(Name, latin1), Value}
  end).
 
 'word'(Input, Index) ->

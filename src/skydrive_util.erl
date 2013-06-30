@@ -24,7 +24,7 @@ auth_url(ClientId, Scopes, RedirectUrl) ->
 auth_parse_code(RedirectedUrl) ->
     {ok, {_, _, _, _, _, Query}} = http_uri:parse(RedirectedUrl),
     Params = url_query_string:parse(Query),
-    {ok, proplists:get_value(<<"code">>, Params)}.
+    {ok, proplists:get_value(code, Params)}.
 
 token_req_url() ->
     lists:flatten(io_lib:format("~s/~s", [?AUTH_HOST, ?AUTH_TOKEN_PATH])).

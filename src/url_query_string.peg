@@ -19,7 +19,7 @@ Param
 param <- name:word '=' value:word
 `
 [{name, Name}, _, {value, Value}] = Node,
-{Name, Value}
+{binary_to_atom(Name, latin1), Value}
 `;
 
 word <- char*
