@@ -1,0 +1,1 @@
+-record(skydrive_token, {access_token, expires_in, scope, token_type, refresh_token}).
