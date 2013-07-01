@@ -1,6 +1,6 @@
 #!/usr/bin/env escript
 %% -*- erlang -*-
-%%! -pz ebin
+%%! -pz ebin -pz deps/mochijson2/ebin
 
 main([ClientId, ClientSecret]) ->
     ssl:start(),
