@@ -1,12 +1,13 @@
 -module(skydrive_util).
 -author('Alexander Svyazin <guybrush@live.ru>').
 
--export([auth_url/3, auth_parse_code/1, token_req_url/0, token_req_body/4, token_refresh_url/0, token_refresh_body/4, desktop_url/0]).
+-export([auth_url/3, auth_parse_code/1, token_req_url/0, token_req_body/4, token_refresh_url/0, token_refresh_body/4, desktop_url/0, request_url/2]).
 
 -define(AUTH_HOST, "https://login.live.com").
 -define(AUTH_PATH_BASE, "oauth20_authorize.srf").
 -define(AUTH_TOKEN_PATH, "oauth20_token.srf").
 -define(AUTH_DESKTOP_PATH, "oauth20_desktop.srf").
+-define(API_BASE, "https://apis.live.net/v5.0").
 
 format_qs(Params) ->
     FParams = [format_param(P) || P <- Params],
@@ -56,3 +57,6 @@ token_refresh_body(ClientId, ClientSecret, RedirectUrl, RefreshToken) ->
 
 desktop_url() ->
     lists:flatten(io_lib:format("~s/~s", [?AUTH_HOST, ?AUTH_DESKTOP_PATH])).
+
+request_url(Token, Query) ->
+    lists:flatten(io_lib:format("~s/~s?~s", [?API_BASE, Query, format_qs([{access_token, Token}])])).

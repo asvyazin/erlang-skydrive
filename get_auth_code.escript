@@ -1,8 +1,8 @@
 #!/usr/bin/env escript
 %% -*- erlang -*-
-%%! -pz ebin deps/mochijson2/ebin ../erlang-skydrive
+%%! -pz ebin deps/mochijson2/ebin
 
--include_lib("erlang-skydrive/include/skydrive.hrl").
+-include("include/skydrive.hrl").
 
 main([ClientId, ClientSecret]) ->
     ssl:start(),
@@ -15,5 +15,5 @@ main([ClientId, ClientSecret]) ->
     {ok, TokenData} = skydrive:get_token(ClientId, ClientSecret, skydrive_util:desktop_url(), AuthCode),
     io:format("auth token: ~p~n", [TokenData]),
     #skydrive_token{access_token = AccessToken} = TokenData,
-    FilesResp = skydrive:request(AccessToken, "me/skydrive/files"),
+    FilesResp = skydrive:request_json(AccessToken, "me/skydrive/files"),
     io:format("~p~n", [FilesResp]).

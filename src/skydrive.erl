@@ -1,11 +1,9 @@
 -module(skydrive).
 -author('Alexander Svyazin <guybrush@live.ru>').
 
--export([get_token/4, request/2]).
+-export([get_token/4, request/2, request_json/2]).
 
 -include("skydrive.hrl").
-
--define(API_BASE, "https://apis.live.net/v5.0").
 
 get_token(ClientId, ClientSecret, RedirectUrl, AuthCode) ->
     TokenReqBody = skydrive_util:token_req_body(ClientId, ClientSecret, RedirectUrl, AuthCode),
@@ -19,5 +17,9 @@ get_token(ClientId, ClientSecret, RedirectUrl, AuthCode) ->
     {ok, #skydrive_token{access_token = AccessToken, expires_in = ExpiresIn, scope = Scope, token_type = TokenType, refresh_token = RefreshToken}}.
 
 request(Token, Query) ->
-    RequestUrl = lists:flatten(io_lib:format("~s/~s?access_token=~s", [?API_BASE, Query, edoc_lib:escape_uri(Token)])),
+    RequestUrl = skydrive_util:request_url(Token, Query),
     httpc:request(RequestUrl).
+
+request_json(Token, Query) ->
+    {ok, {{_, 200, _}, _, Body}} = request(Token, Query),
+    mochijson2:decode(Body).
