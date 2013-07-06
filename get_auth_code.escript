@@ -38,4 +38,4 @@ main([ClientId, ClientSecret]) ->
     {ok, TokenData} = skydrive:get_token(ClientId, ClientSecret, skydrive_util:desktop_url(), AuthCode),
     io:format("auth token: ~p~n", [TokenData]),
     #skydrive_token{access_token = AccessToken} = TokenData,
-    enumerate_directory(AccessToken, "me/skydrive").
+    enumerate_directory(AccessToken, [me, skydrive]).

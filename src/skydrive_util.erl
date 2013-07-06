@@ -1,7 +1,7 @@
 -module(skydrive_util).
 -author('Alexander Svyazin <guybrush@live.ru>').
 
--export([auth_url/3, auth_parse_code/1, token_req_url/0, token_req_body/4, token_refresh_url/0, token_refresh_body/4, desktop_url/0, request_url/2]).
+-export([auth_url/3,auth_parse_code/1,token_req_url/0,token_req_body/4,token_refresh_url/0,token_refresh_body/4,desktop_url/0,request_url/3,request_url/2]).
 
 -define(AUTH_HOST, "https://login.live.com").
 -define(AUTH_PATH_BASE, "oauth20_authorize.srf").
@@ -58,5 +58,13 @@ token_refresh_body(ClientId, ClientSecret, RedirectUrl, RefreshToken) ->
 desktop_url() ->
     lists:flatten(io_lib:format("~s/~s", [?AUTH_HOST, ?AUTH_DESKTOP_PATH])).
 
-request_url(Token, Query) ->
-    lists:flatten(io_lib:format("~s/~s?~s", [?API_BASE, Query, format_qs([{access_token, Token}])])).
+request_url(Token, Path, Params) ->
+    request_url(Path, [{access_token, Token} | Params]).
+
+request_url(Path, Params) ->
+    lists:flatten(io_lib:format("~s/~s?~s", [?API_BASE, format_path(Path), format_qs(Params)])).
+
+format_path(Path) when is_binary(Path) or is_atom(Path) or is_integer(Path) ->
+    io_lib:format("~s", [Path]);
+format_path(Path) when is_list(Path) ->
+    string:join([format_path(Part) || Part <- Path], "/").
