@@ -1,6 +1,6 @@
 #!/usr/bin/env escript
 %% -*- erlang -*-
-%%! -pz ebin deps/mochijson2/ebin
+%%! -pz ebin deps/jsxn/ebin -pz deps/jsx/ebin
 
 -include("include/skydrive.hrl").
 
